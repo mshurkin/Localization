@@ -1,0 +1,15 @@
+{
+    "schemaVersion": "1.0",
+    "artifacts": {
+        "localization": {
+            "version": "___VERSION___",
+            "type": "executable",
+            "variants": [
+                {
+                    "path": "localization-___VERSION___-macos/bin/localization",
+                    "supportedTriples": ["x86_64-apple-macosx", "arm64-apple-macosx"]
+                }
+            ]
+        }
+    }
+}

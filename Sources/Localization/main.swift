@@ -195,7 +195,7 @@ struct StringsFile: Localizable {
     let path: String
     let name: String
     private(set) var keys: Set<String> = []
-    private(set) var lines: Dictionary<String, Int> = [:]
+    private(set) var lines: [String: Int] = [:]
 
     init(_ file: LocalizationFile) {
         path = file.path
@@ -285,7 +285,7 @@ struct StringsFile: Localizable {
         }
 
         for (key, strings) in grouped.sorted(by: { $0.key < $1.key }) {
-            if (strings.isEmpty) {
+            if strings.isEmpty {
                 continue
             }
 
@@ -336,7 +336,7 @@ struct StringsdictFile: Localizable {
     struct Contents {
         let raw: String
         let ranges: [Range<String.Index>]
-        let values: Dictionary<String, String>
+        let values: [String: String]
     }
 
     enum PluralRule: String, CaseIterable {
@@ -355,7 +355,7 @@ struct StringsdictFile: Localizable {
         }
 
         var ranges = [Range<String.Index>]()
-        var values = Dictionary<String, String>()
+        var values = [String: String]()
 
         let regex = try? NSRegularExpression(pattern: #"\n\t\<key\>(?:.|\n)+?\n\t\<\/dict\>"#)
         let range = NSRange(contents.startIndex..<contents.endIndex, in: contents)
@@ -466,6 +466,6 @@ stringsdictFiles
     .compactMap(LocalizableFile<StringsdictFile>.init(files:))
     .forEach { $0.compare(languages) }
 
-if numberOfErrors > 1 {
+if numberOfErrors > 0 {
     exit(1)
 }
