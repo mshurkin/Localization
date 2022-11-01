@@ -40,7 +40,7 @@ struct LocalizationBuildTool: BuildToolPlugin {
 
         return [
             .prebuildCommand(
-                displayName: "Run Localization",
+                displayName: "Run Localization for \(target.name)",
                 executable: try context.tool(named: "localization").path,
                 arguments: ["Resources"],
                 environment: environment,
@@ -93,7 +93,7 @@ extension LocalizationBuildTool: XcodeBuildToolPlugin {
 
         return [
             .prebuildCommand(
-                displayName: "Run Localization",
+                displayName: "Run Localization for \(target.displayName)",
                 executable: try context.tool(named: "localization").path,
                 arguments: ["Resources"],
                 environment: environment,
