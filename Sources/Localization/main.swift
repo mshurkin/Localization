@@ -278,38 +278,36 @@ struct StringsFile: Localizable {
         }
 
         var content = [String]()
-        var lineNumber = 0
-        if let header = header {
-            content.append(header)
-            lineNumber = header.components(separatedBy: .newlines).count
+        if let header {
+            content.append(contentsOf: header.components(separatedBy: .newlines))
         }
 
+        var isFirstMark = true
         for (key, strings) in grouped.sorted(by: { $0.key < $1.key }) {
             if strings.isEmpty {
                 continue
             }
 
-            if key.isEmpty {
-                content.append("")
-                lineNumber += 1
-            } else {
+            content.append("")
+            if !key.isEmpty {
                 let groupName = key.prefix(1).uppercased() + key.dropFirst().replacingOccurrences(of: "-", with: " ")
-                content.append("\n// MARK: - \(groupName)\n")
-                lineNumber += 3
+                content.append("// MARK: \(isFirstMark ? "" : "- ")\(groupName)")
+                content.append("")
+                isFirstMark = false
             }
 
             for string in strings {
                 content.append(#""\#(string.key)" = "\#(string.value)";"#)
-                lineNumber += 1
                 if keys.insert(string.key).inserted {
-                    lines[string.key] = lineNumber
+                    lines[string.key] = content.count
                 } else {
                     let message = #""\#(string.key)" is dublicated in "\#(name)" file"#
-                    print(.error, message, "\(path):\(lineNumber):")
+                    print(.error, message, "\(path):\(content.count):")
                 }
             }
         }
 
+        content.append("")
         try? content.joined(separator: "\n").write(toFile: path, atomically: false, encoding: .utf8)
     }
 }

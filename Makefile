@@ -5,7 +5,8 @@ SWIFT_BUILD_FLAGS = -c release --arch arm64 --arch x86_64
 BUILD_FOLDER = $(shell swift build $(SWIFT_BUILD_FLAGS) --show-bin-path)
 
 EXECUTABLE = $(BUILD_FOLDER)/$(TARGET_NAME)
-ARTIFACT_BUNDLE_PATH = $(TEMPORARY_FOLDER)/$(TARGET_NAME).artifactbundle
+ARTIFACT_BUNDLE = Localization.artifactbundle
+ARTIFACT_BUNDLE_PATH = $(TEMPORARY_FOLDER)/$(ARTIFACT_BUNDLE)
 
 LICENSE_PATH = $(CURDIR)/LICENSE
 
@@ -25,14 +26,12 @@ spm: build
 	sed 's/___VERSION___/$(version)/g' Templates/info.json > "$(ARTIFACT_BUNDLE_PATH)/info.json"
 	cp -f "$(EXECUTABLE)" "$(ARTIFACT_BUNDLE_PATH)/$(TARGET_NAME)-$(version)-macos/bin"
 	cp -f "$(LICENSE_PATH)" "$(ARTIFACT_BUNDLE_PATH)"
-#	zip -yr - "$(ARTIFACT_BUNDLE_PATH)" > "./$(TARGET_NAME).artifactbundle.zip"
-	rm -rf "Binaries/$(TARGET_NAME).artifactbundle"
-	cp -R "$(ARTIFACT_BUNDLE_PATH)" "Binaries"
+	cd "$(TEMPORARY_FOLDER)" && zip -r "$(ARTIFACT_BUNDLE).zip" "$(ARTIFACT_BUNDLE)"
+	mv "$(ARTIFACT_BUNDLE_PATH).zip" "Binaries"
 
 ## clean: Clean up the project directory
 clean:
 	rm -rf "$(TEMPORARY_FOLDER)"
-#	rm -f "./*.zip"
 	swift package clean
 
 ## help: Print this message

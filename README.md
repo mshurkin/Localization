@@ -26,7 +26,7 @@ Localization.swift [--language <language>] <directory>
 `<directory>` The directory relative to your project path that will be used is searching for localization files.
 
 **Options:**  
-`-l, --language <language>` The development language. Default
+`-l, --language <language>` The development language.
 
 ## Installation
 
@@ -36,7 +36,7 @@ Add the package as a dependency to your `Package.swift`:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/mshurkin/Localization", from: "1.0.0"),
+    .package(url: "https://github.com/mshurkin/Localization", from: "1.0.1"),
 ]
 ```
 

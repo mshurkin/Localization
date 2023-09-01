@@ -28,6 +28,6 @@ let package = Package(
             dependencies: ["Localization"]
         ),
         .executableTarget(name: "localization", path: "Sources/Localization"),
-        .binaryTarget(name: "Localization", path: "Binaries/Localization.artifactbundle")
+        .binaryTarget(name: "Localization", path: "Binaries/Localization.artifactbundle.zip")
     ]
 )
